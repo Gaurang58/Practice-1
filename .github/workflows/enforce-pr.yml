@@ -1,4 +1,4 @@
-name: CI Pipeline
+name: Prettier Check
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  lint-and-build:
+  format-check:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,13 +17,10 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "18"
+          node-version: '18'
 
       - name: Install dependencies
         run: npm install
 
-      - name: Run ESLint
-        run: |
-          echo "Running ESLint..."
-          npx eslint
-          "lint": "eslint . || echo 'Linting failed, but continuing...'"
+      - name: Run Prettier
+        run: npx prettier --check .
