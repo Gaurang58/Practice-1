@@ -1,15 +1,12 @@
-name: Enforce Pull Request Usage
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
-  block-direct-push:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Check if push is from fromm a pull request
-        if: github.event_name == 'push' && github.actor != 'github-actions'
-        run: |
-          echo "Direct pushes to the main branch are not allowed. Please use pull requests."
-          exit 1
+      - name: Say Hello
+        run: echo "Hello from GitHub Actions!"
