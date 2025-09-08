@@ -1,15 +1,26 @@
-name: Enforce Pull Request Usage
+name: CI Pipeline
+
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
-  block-direct-push:
+  lint-and-build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Check if push is from fromm a pull request
-        if: github.event_name == 'push' && github.actor != 'github-actions'
-        run: |
-          echo "Direct pushes to the main branch are not allowed. Please use pull requests."
-          exit 1
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run ESLint
+        run: npm run lint
