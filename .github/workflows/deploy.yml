@@ -6,7 +6,7 @@ on:
 
 jobs:
   deploy:
-    name: 🚀 Deploy to GHCR
+    name:  Deploy to GHCR
     runs-on: ubuntu-latest
     permissions:
       packages: write
