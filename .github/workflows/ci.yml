@@ -1,10 +1,10 @@
-name: CI/CD Pipeline
+name: CI Pipeline
 
 on:
   push:
-    branches: [main]
+    branches-ignore: [main]
   pull_request:
-    branches: [main]
+    branches-ignore: [main]
 
 jobs:
   build:
@@ -35,22 +35,3 @@ jobs:
         run: npx prettier --check .
       - name: Run ESLint
         run: npx eslint . --ext .js,.ts,.jsx,.tsx
-
-  deploy:
-    name: 🚀 Deploy to GHCR
-    runs-on: ubuntu-latest
-    needs: test
-    permissions:
-      packages: write
-      contents: read
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Log in to GitHub Container Registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-
-      - name: Build Docker image
-        run: docker build -t ghcr.io/gaurang58/practice-js-app:latest .
-
-      - name: Push Docker image
-        run: docker push ghcr.io/gaurang58/practice-js-app:latest
